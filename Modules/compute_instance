@@ -1,0 +1,46 @@
+resource "google_compute_instance" "tfer--gcptutorials-vm" {
+  boot_disk {
+    auto_delete = "true"
+    device_name = "persistent-disk-0"
+    mode        = "READ_WRITE"
+    source      = "https://www.googleapis.com/compute/v1/projects/terraformer-376507/zones/us-central1-a/disks/gcptutorials-vm"
+  }
+
+  can_ip_forward      = "false"
+  deletion_protection = "false"
+  enable_display      = "false"
+  machine_type        = "f1-micro"
+  name                = "gcptutorials-vm"
+
+  network_interface {
+    access_config {
+      nat_ip       = "34.29.213.252"
+      network_tier = "PREMIUM"
+    }
+
+    network            = "https://www.googleapis.com/compute/v1/projects/terraformer-376507/global/networks/default"
+    network_ip         = "10.128.0.3"
+    queue_count        = "0"
+    stack_type         = "IPV4_ONLY"
+    subnetwork         = "https://www.googleapis.com/compute/v1/projects/terraformer-376507/regions/us-central1/subnetworks/default"
+    subnetwork_project = "terraformer-376507"
+  }
+
+  project = "terraformer-376507"
+
+  scheduling {
+    automatic_restart   = "true"
+    min_node_cpus       = "0"
+    on_host_maintenance = "MIGRATE"
+    preemptible         = "false"
+    provisioning_model  = "STANDARD"
+  }
+
+  shielded_instance_config {
+    enable_integrity_monitoring = "true"
+    enable_secure_boot          = "false"
+    enable_vtpm                 = "true"
+  }
+
+  zone = "us-central1-a"
+}
